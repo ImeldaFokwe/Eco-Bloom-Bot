@@ -1,0 +1,6 @@
+{
+    "temperature": [20, 35],
+    "humidity": [50, 70],
+    "soil_moisture": [700, 900],
+    "light": [150, 600]
+}

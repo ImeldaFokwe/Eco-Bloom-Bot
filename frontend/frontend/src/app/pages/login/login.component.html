@@ -1,0 +1,52 @@
+<html>
+  <body>
+    <div class="login-container">
+      <div class="login-form">
+        <form [formGroup]="reactiveForm" (ngSubmit)="OnFormSubmitted()">
+          <h2 class="title">ecobloom</h2>
+          <input type="email" placeholder="email" formControlName="email" />
+          <small
+            *ngIf="
+              reactiveForm.get('email').invalid &&
+              reactiveForm.get('email').touched
+            "
+          >
+            required field <br />
+            enter a valid email
+          </small>
+          <input
+            type="password"
+            placeholder="password"
+            formControlName="password"
+          />
+          <small
+            *ngIf="
+              reactiveForm.get('password').invalid &&
+              reactiveForm.get('password').touched
+            "
+          >
+            required field <br />
+            password must contains at least 6 characters</small
+          >
+          <a
+            href="#"
+            style="text-decoration: none; color: #5ad63fd9; cursor: pointer"
+          >
+            forgot password?
+          </a>
+          <button type="submit">Login</button>
+          <p>
+            Don't have an account?
+            <span
+              style="color: #5ad63f; cursor: pointer;"
+              (click)="navigateToSignUp()">Sign up</span>
+          </p>
+
+        </form>
+        <div class="image-box">
+          <img src="assets/images/loginImage.JPG" alt="Greenhouse Image" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

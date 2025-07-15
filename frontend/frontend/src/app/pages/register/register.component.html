@@ -1,0 +1,58 @@
+<html>
+<body>
+<div class="register-container">
+  <div class="register-form">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <h2 class="title">Register</h2>
+
+      <input type="text" placeholder="Name" formControlName="name" />
+      <small *ngIf="registerForm.get('name').invalid && registerForm.get('name').touched">
+        Name is required
+      </small>
+
+      <input type="email" placeholder="Email" formControlName="email" />
+      <small *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched">
+        Enter a valid email
+      </small>
+
+      <input type="password" placeholder="Password" formControlName="password" />
+      <small *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched">
+        Password must be at least 6 characters
+      </small>
+
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        formControlName="passwordConfirm"
+      />
+      <small
+        *ngIf="
+          registerForm.get('passwordConfirm').value !== registerForm.get('password').value &&
+          registerForm.get('passwordConfirm').touched
+        "
+      >
+        Passwords must match
+      </small>
+
+      <button type="submit">Register</button>
+
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+      <p>
+        Already have an account?
+        <span
+          style="color: #5ad63f; cursor: pointer;"
+          (click)="navigateToLogin()"
+        >
+          Login
+        </span>
+      </p>
+    </form>
+    <div class="image-box">
+      <img src="assets/images/loginImage.JPG" alt="Greenhouse Image" />
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

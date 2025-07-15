@@ -1,0 +1,29 @@
+{
+  "sensors": {
+    "TSL2561": [
+      50,
+      800
+    ],
+    "BME280_Temperature": [
+      15,
+      35
+    ],
+    "BME280_Humidity": [
+      40,
+      80
+    ],
+    "BME280_Pressure": [
+      950,
+      1050
+    ],
+    "SoilMoisture": [
+      200,
+      800
+    ],
+    "HC_SR04_Distance": [
+      0,
+      10
+    ]
+  },
+  "lastAlarmTimestamp": 1744313400667
+}

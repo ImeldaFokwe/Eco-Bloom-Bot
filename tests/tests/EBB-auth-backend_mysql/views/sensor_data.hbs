@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Sensor Data</title>
+</head>
+<body>
+    <nav>
+        <h4>ECO BLOOM BOT</h4>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Actuator Control Section -->
+    <div class="container mt-4">
+        <h2 class="display-6">Control Actuators</h2>
+        <div class="row">
+            <!-- Fan Control -->
+            <div class="col-md-4">
+                <p>Fan Status: <span id="fan-status">Loading...</span></p>
+                <p>Fan Mode: <span id="fan-mode">AUTO</span></p>
+                <button class="btn btn-info btn-block" onclick="setMode('fan', 'auto')">Auto Mode</button>
+                <button class="btn btn-info btn-block" onclick="setMode('fan', 'manual')">Manual Mode</button>
+                <button class="btn btn-success btn-block" onclick="controlActuator('fan', 'start')">Start Fan</button>
+                <button class="btn btn-danger btn-block" onclick="controlActuator('fan', 'stop')">Stop Fan</button>
+            </div>
+            <!-- Light Control -->
+            <div class="col-md-4">
+                <p>Light Status: <span id="light-status">Loading...</span></p>
+                <p>Light Mode: <span id="light-mode">AUTO</span></p>
+                <button class="btn btn-info btn-block" onclick="setMode('light', 'auto')">Auto Mode</button>
+                <button class="btn btn-info btn-block" onclick="setMode('light', 'manual')">Manual Mode</button>
+                <button class="btn btn-success btn-block" onclick="controlActuator('light', 'start')">Turn On Light</button>
+                <button class="btn btn-danger btn-block" onclick="controlActuator('light', 'stop')">Turn Off Light</button>
+            </div>
+            <!-- Pump Control -->
+            <div class="col-md-4">
+                <p>Pump Status: <span id="pump-status">Loading...</span></p>
+                <p>Pump Mode: <span id="pump-mode">AUTO</span></p>
+                <button class="btn btn-info btn-block" onclick="setMode('pump', 'auto')">Auto Mode</button>
+                <button class="btn btn-info btn-block" onclick="setMode('pump', 'manual')">Manual Mode</button>
+                <button class="btn btn-success btn-block" onclick="controlActuator('pump', 'start')">Start Pump</button>
+                <button class="btn btn-danger btn-block" onclick="controlActuator('pump', 'stop')">Stop Pump</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch initial actuator status
+        function fetchActuatorStatus() {
+            fetch('/sensors/api/actuator/status')
+                .then(response => response.json())
+                .then(statuses => {
+                    statuses.forEach(({ actuator, status, mode }) => {
+                        document.getElementById(`${actuator}-status`).innerText = status;
+                        document.getElementById(`${actuator}-mode`).innerText = mode.toUpperCase();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching actuator status:', error);
+                });
+        }
+
+        // Control actuator and update status
+        function controlActuator(actuator, action) {
+            fetch('/sensors/api/actuator/control', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ actuator, action })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                document.getElementById(`${actuator}-status`).innerText = data.status;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send command');
+            });
+        }
+
+        // Set mode for an actuator
+        function setMode(actuator, mode) {
+            fetch('/sensors/api/actuator/mode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ actuator, mode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                document.getElementById(`${actuator}-mode`).innerText = mode.toUpperCase();
+            })
+            .catch(error => {
+                console.error('Error setting mode:', error);
+                alert('Failed to set mode');
+            });
+        }
+
+        // Load initial status on page load
+        document.addEventListener('DOMContentLoaded', fetchActuatorStatus);
+    </script>
+
+    <div class="container mt-4">
+        <h1 class="display-4">Sensor Data</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Sensor Type</th>
+                    <th scope="col">Sensor Value</th>
+                    <th scope="col">Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each sensorData}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.sensor_type}}</td>
+                    <td>{{this.value}}</td>
+                    <td>{{this.timestamp}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

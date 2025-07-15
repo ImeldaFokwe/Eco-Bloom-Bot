@@ -1,0 +1,47 @@
+<app-navigation></app-navigation>
+<div class="score-banner mx-auto my-6 text-center">
+  <h2 class="text-2xl font-bold text-gray-800">
+    🌿 Plant Health Score: 
+    <span 
+      class="font-extrabold"
+      [ngClass]="{
+        'text-green-600': plantScore >= 8,
+        'text-yellow-500': plantScore >= 5 && plantScore < 8,
+        'text-red-600': plantScore < 5
+      }"
+    >
+      {{ plantScore }}/10
+    </span>
+  </h2>
+</div>
+<div class="graph-containers">
+<div class="p-4 border-2 rounded-lg bg-lime-500 border-lime-500 shadow-xl">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="p-6 border rounded-lg shadow-xl bg-white border-white">
+      <canvas id="light">{{ TSL2561 }}</canvas>
+    </div>
+    <div class="p-6 border rounded-lg shadow-xl bg-white border-white">
+      <canvas id="soilMoisture">{{ SoilMoisture }}</canvas>
+    </div>
+    <div class="p-6 border rounded-lg shadow-xl bg-white border-white">
+      <canvas id="temperature">{{ BME280_Temperature }}</canvas>
+    </div>
+    <div class="p-6 border rounded-lg shadow-xl bg-white border-white">
+      <canvas id="humidity">{{ BME280_Humidity }}</canvas>
+    </div>
+    <div class="p-6 border rounded-lg shadow-xl bg-white border-white">
+      <canvas id="pressure">{{ BME280_Pressure }}</canvas>
+    </div>
+    <div class="p-6 border rounded-lg shadow-xl bg-white border-white">
+      <canvas id="distance">{{ HC_SR04_Distance }}</canvas>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Plant Health Score History -->
+<div class="mt-10 p-6 border rounded-lg shadow-xl bg-white border-white">
+  <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">
+    Plant Health Score History
+  </h3>
+  <canvas id="plantHealthScoreChart"></canvas>
+</div>

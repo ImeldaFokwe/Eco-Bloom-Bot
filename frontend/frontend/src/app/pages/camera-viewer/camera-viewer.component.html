@@ -1,0 +1,15 @@
+<app-navigation></app-navigation>
+<div class="global-container">
+  <div class="image-container">
+    <img
+      *ngIf="imageUrl"
+      [src]="imageUrl"
+      alt="Live Camera Feed"
+      class="image-fit"
+    />
+  </div>
+  <div class="text-container">
+    <p class="date">{{ date }}</p>
+    <p class="hour">{{ hour }}</p>
+  </div>
+</div>
